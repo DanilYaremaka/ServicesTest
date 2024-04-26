@@ -1,13 +1,8 @@
 package com.example.servicestest
 
-import android.app.Notification
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.os.Build
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -36,6 +31,11 @@ class MainActivity : AppCompatActivity() {
             ContextCompat.startForegroundService(
                 this,
                 MyForegroundService.newIntent(this))
+        }
+        binding.intentService.setOnClickListener {
+            ContextCompat.startForegroundService(
+                this,
+                MyIntentService.newIntent(this))
         }
     }
 }
