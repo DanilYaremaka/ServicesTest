@@ -12,6 +12,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.work.ExistingWorkPolicy
+import androidx.work.WorkManager
 import com.example.servicestest.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -38,12 +40,14 @@ class MainActivity : AppCompatActivity() {
         binding.foregroundService.setOnClickListener {
             ContextCompat.startForegroundService(
                 this,
-                MyForegroundService.newIntent(this))
+                MyForegroundService.newIntent(this)
+            )
         }
         binding.intentService.setOnClickListener {
             ContextCompat.startForegroundService(
                 this,
-                MyIntentService.newIntent(this))
+                MyIntentService.newIntent(this)
+            )
         }
         binding.jobScheduler.setOnClickListener {
             Log.d("MainActivity", "jobScheduler.setOnClickListener")
@@ -66,6 +70,14 @@ class MainActivity : AppCompatActivity() {
         }
         binding.jobIntentService.setOnClickListener {
             MyJobIntentService.enqueue(this, page++)
+        }
+        binding.workManager.setOnClickListener {
+            val workManager = WorkManager.getInstance(applicationContext)
+            workManager.enqueueUniqueWork(
+                MyWorker.WORK_NAME,
+                ExistingWorkPolicy.APPEND,
+                MyWorker.makeRequest(page++)
+            )
         }
     }
 }
